@@ -40,7 +40,8 @@ jobs:
       - name: Publish APK as release asset
         run: |
           cd android/app/build/outputs/apk/debug
-          gh release create android-debug-build --title "Android debug APK" --notes "Folia Android debug build" app-debug.apk --clobber
+          gh release delete android-debug-build --yes || true
+          gh release create android-debug-build --title "Android debug APK" --notes "Folia Android debug build" app-debug.apk
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload APK artifact
