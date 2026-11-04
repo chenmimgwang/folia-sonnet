@@ -1,41 +1,27 @@
-name: android-apk
-
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 17
-      - name: Install Android SDK components
-        run: |
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
-          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platform-tools" "platforms;android-36" "build-tools;36.0.0"
-      - name: Install dependencies
-        run: npm ci
-      - name: Build web and sync Capacitor
-        run: npm run cap:sync:android
-      - name: Build debug APK
-        working-directory: android
-        run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: folia-sonnet-debug
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+bmFtZTogYW5kcm9pZC1hcGsKCm9uOgogIHB1c2g6CiAgICBicmFuY2hlczog
+W21haW5dCiAgd29ya2Zsb3dfZGlzcGF0Y2g6Cgpqb2JzOgogIGJ1aWxkOgog
+ICAgcnVucy1vbjogdWJ1bnR1LWxhdGVzdAogICAgc3RlcHM6CiAgICAgIC0g
+bmFtZTogQ2hlY2tvdXQKICAgICAgICB1c2VzOiBhY3Rpb25zL2NoZWNrb3V0
+QHY0CiAgICAgIC0gbmFtZTogU2V0dXAgTm9kZQogICAgICAgIHVzZXM6IGFj
+dGlvbnMvc2V0dXAtbm9kZUB2NAogICAgICAgIHdpdGg6CiAgICAgICAgICBu
+b2RlLXZlcnNpb246IDI0CiAgICAgICAgICBjYWNoZTogbnBtCiAgICAgIC0g
+bmFtZTogU2V0dXAgSmF2YQogICAgICAgIHVzZXM6IGFjdGlvbnMvc2V0dXAt
+amF2YUB2NAogICAgICAgIHdpdGg6CiAgICAgICAgICBkaXN0cmlidXRpb246
+IHRlbXVyaW4KICAgICAgICAgIGphdmEtdmVyc2lvbjogMTcKICAgICAgLSBu
+YW1lOiBJbnN0YWxsIEFuZHJvaWQgU0RLIGNvbXBvbmVudHMKICAgICAgICBy
+dW46IHwKICAgICAgICAgIHllcyB8ICIkQU5EUk9JRF9IT01FL2NtZGxpbmUt
+dG9vbHMvbGF0ZXN0L2Jpbi9zZGttYW5hZ2VyIiAtLWxpY2Vuc2VzID4gL2Rl
+di9udWxsIHx8IHRydWUKICAgICAgICAgICIkQU5EUk9JRF9IT01FL2NtZGxp
+bmUtdG9vbHMvbGF0ZXN0L2Jpbi9zZGttYW5hZ2VyIiAicGxhdGZvcm0tdG9v
+bHMiICJwbGF0Zm9ybXM7YW5kcm9pZC0zNiIgImJ1aWxkLXRvb2xzOzM2LjAu
+MCIKICAgICAgLSBuYW1lOiBJbnN0YWxsIGRlcGVuZGVuY2llcwogICAgICAg
+IHJ1bjogbnBtIGNpCiAgICAgIC0gbmFtZTogQnVpbGQgd2ViIGFuZCBzeW5j
+IENhcGFjaXRvcgogICAgICAgIHJ1bjogbnBtIHJ1biBjYXA6c3luYzphbmRy
+b2lkCiAgICAgIC0gbmFtZTogQnVpbGQgZGVidWcgQVBLCiAgICAgICAgd29y
+a2luZy1kaXJlY3Rvcnk6IGFuZHJvaWQKICAgICAgICBydW46IHwKICAgICAg
+ICAgIGNobW9kICt4IGdyYWRsZXcKICAgICAgICAgIC4vZ3JhZGxldyBhc3Nl
+bWJsZURlYnVnIC0tc3RhY2t0cmFjZQogICAgICAtIG5hbWU6IFVwbG9hZCBB
+UEsgYXJ0aWZhY3QKICAgICAgICB1c2VzOiBhY3Rpb25zL3VwbG9hZC1hcnRp
+ZmFjdEB2NAogICAgICAgIHdpdGg6CiAgICAgICAgICBuYW1lOiBmb2xpYS1z
+b25uZXQtZGVidWcKICAgICAgICAgIHBhdGg6IGFuZHJvaWQvYXBwL2J1aWxk
+L291dHB1dHMvYXBrL2RlYnVnL2FwcC1kZWJ1Zy5hcGsK
