@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -34,6 +37,12 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --stacktrace
+      - name: Publish APK as release asset
+        run: |
+          cd android/app/build/outputs/apk/debug
+          gh release create android-debug-build --title "Android debug APK" --notes "Folia Android debug build" app-debug.apk --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
